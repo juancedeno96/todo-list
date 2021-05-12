@@ -1,0 +1,1 @@
+Delete from todo where todo_id = $1

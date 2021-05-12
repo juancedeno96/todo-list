@@ -1,0 +1,1 @@
+Update todo SET description = $1 WHERE todo_id = $2
