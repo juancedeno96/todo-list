@@ -1,14 +1,31 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
 const InputTodo = () => {
+  const [description, setDescription] = useState("");
+
+  const onSubmitform = (e) => {
+    e.preventDefault();
+    axios
+      .post("/todos", { description })
+      .then()
+      .catch((err) => console.log(err));
+  };
+
   return (
-    <Fragment>
-      <h1>InputTodo</h1>
-      <form>
-        <input type="text" placeholder="add todo" className='form-control' />
-        <button className="btn">Add</button>
+    <div>
+      <h1 className="text-center my-5">InputTodo</h1>
+      <form className="d-flex" onSubmit={onSubmitform}>
+        <input
+          type="text"
+          placeholder="add todo"
+          className="form-control"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        <button className="btn btn-success">Add</button>
       </form>
-    </Fragment>
+      </div>
   );
 };
 

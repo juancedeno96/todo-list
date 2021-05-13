@@ -1,12 +1,10 @@
 require("dotenv").config();
 const massive = require("massive");
 const express = require("express");
-const cors = require("cors");
 const app = express();
 const { SERVER_PORT, CONNECTION_STRING } = process.env;
 
 //middleware
-app.use(cors());
 app.use(express.json()); // => can access the req.body
 
 massive({
@@ -23,13 +21,9 @@ massive({
 //Routes
 //Get Todo
 app.get("/todos", async (req, res) => {
-  try {
-    const db = await req.app.get("db");
-    const allTodos = db.read_todos();
-    return res.status(200).send(allTodos);
-  } catch (err) {
-    console.log(err.message);
-  }
+  const db = await req.app.get("db");
+  const allTodos = db.read_todos();
+  return res.status(200).send(allTodos)
 });
 
 //
@@ -46,41 +40,35 @@ app.get("/todos/:id", async (req, res) => {
 
 //Post Todo
 app.post("/todos", async (req, res) => {
+  const { description } = req.body;
+  const db = await req.app.get("db");
+  const newTodo = db.add_todo([description]);
+  return res.status(200).send(newTodo);
+});
+
+//Edit Todo
+
+app.put("/todos/:id", async (req, res) => {
   try {
+    const { id } = req.params;
     const { description } = req.body;
     const db = await req.app.get("db");
-    const newTodo = db.add_todo(description);
-    return res.status(200).send(newTodo);
+    const updateTodo = db.update_todo([description, id]);
+    res.status(202).send(updateTodo);
   } catch (err) {
     console.log(err.message);
   }
 });
 
-//Edit Todo
-
-app.put('/todos/:id', async (req, res)=>{
-  try {
-    const {id} = req.params
-    const {description} = req.body
-    const db = await req.app.get('db')
-    const updateTodo = db.update_todo([description, id])
-    res.status(202).send(updateTodo)
-    
-  } catch (err) {
-    console.log(err.message)
-  }
-})
-
 //Delete Todo
 
-app.delete('/todos/:id', async(req,res)=>{
+app.delete("/todos/:id", async (req, res) => {
   try {
-    const {id} = req.params
-    const db = await req.app.get('db')
-    const deleteTodo = db.delete_todo(id)
-    return res.status(200).send(deleteTodo)
-
+    const { id } = req.params;
+    const db = await req.app.get("db");
+    const deleteTodo = db.delete_todo(id);
+    return res.status(200).send(deleteTodo);
   } catch (err) {
-    console.log(err.message)
+    console.log(err.message);
   }
-})
+});
