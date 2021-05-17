@@ -1,1 +1,1 @@
-select * from todo
+select * from todo;
