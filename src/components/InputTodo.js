@@ -4,8 +4,7 @@ import axios from "axios";
 const InputTodo = () => {
   const [description, setDescription] = useState("");
 
-  const onSubmitform = (e) => {
-    e.preventDefault();
+  const onSubmitform = () => {
     axios
       .post("/todos", { description })
       .then()
