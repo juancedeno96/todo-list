@@ -3,6 +3,7 @@ const massive = require("massive");
 const express = require("express");
 const app = express();
 const { SERVER_PORT, CONNECTION_STRING } = process.env;
+const tc = require('./todoController')
 
 //middleware
 app.use(express.json()); // => can access the req.body
@@ -20,11 +21,7 @@ massive({
 
 //Routes
 //Get Todo
-app.get("/todos", async (req, res) => {
-  const db = await req.app.get("db");
-  const allTodos = db.read_todos();
-  return res.status(200).send(allTodos)
-});
+app.get("/api/todos", tc.getAllTodos)
 
 //
 app.get("/todos/:id", async (req, res) => {
