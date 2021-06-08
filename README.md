@@ -1,3 +1,3 @@
 <img src='/src/todo-list.png'>
 
-example text
+Simple fullstack Todolist project using the PERN stack (PostgresQl, Express, Reactjs and Nodejs)
