@@ -13,7 +13,7 @@ const InputTodo = () => {
 
   return (
     <div>
-      <h1 className="text-center my-5">InputTodo</h1>
+      <h1 className="text-center my-5">TodoList</h1>
       <form className="d-flex" onSubmit={onSubmitform}>
         <input
           type="text"
